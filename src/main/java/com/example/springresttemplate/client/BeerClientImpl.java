@@ -1,11 +1,13 @@
 package com.example.springresttemplate.client;
 
 import com.example.springresttemplate.model.BeerDTO;
+import com.example.springresttemplate.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,9 +24,24 @@ public class BeerClientImpl implements BeerClient {
 
     @Override
     public Page<BeerDTO> listAllBeers() {
+        return listAllBeers(null, null, null, null, null);
+    }
+
+    @Override
+    public Page<BeerDTO> listAllBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize) {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(GET_BEER_PATH);
+
+        if (StringUtils.hasText(beerName)) uriComponentsBuilder.queryParam("beerName", beerName);
+
+        if (beerStyle != null) uriComponentsBuilder.queryParam("beerStyle", beerStyle);
+
+        if (showInventory != null) uriComponentsBuilder.queryParam("showInventory", showInventory);
+
+        if (pageNumber != null) uriComponentsBuilder.queryParam("pageNumber", pageNumber);
+
+        if (pageSize != null) uriComponentsBuilder.queryParam("pageSize", pageSize);
 
 //        ResponseEntity<String>  stringResponse = restTemplate.getForEntity(BASE_PATH + GET_BEER_PATH, String.class);
 //        System.out.println(stringResponse.getBody());
