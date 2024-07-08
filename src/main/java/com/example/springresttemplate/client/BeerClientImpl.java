@@ -36,8 +36,6 @@ public class BeerClientImpl implements BeerClient {
 //                });
 
         ResponseEntity<BeerDTOPageImpl> pageResponse = restTemplate.getForEntity(GET_BEER_PATH, BeerDTOPageImpl.class);
-        System.out.println(pageResponse.getBody());
-
-        return null;
+        return pageResponse.getBody();
     }
 }
