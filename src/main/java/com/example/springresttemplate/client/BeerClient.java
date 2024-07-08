@@ -4,8 +4,14 @@ import com.example.springresttemplate.model.BeerDTO;
 import com.example.springresttemplate.model.BeerStyle;
 import org.springframework.data.domain.Page;
 
-public interface BeerClient {
-    Page<BeerDTO> listAllBeers();
+import java.util.Optional;
+import java.util.UUID;
 
-    Page<BeerDTO> listAllBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
+public interface BeerClient {
+    Page<BeerDTO> listBeers();
+
+    Page<BeerDTO> listBeers(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
+
+
+    BeerDTO getBeerById(UUID beerId);
 }
