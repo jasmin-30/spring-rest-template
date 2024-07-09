@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -15,6 +16,16 @@ class BeerClientImplTest {
 
     @Autowired
     BeerClient beerClient;
+
+    @Test
+    void testUpdateBeer() {
+        BeerDTO beerDTO = beerClient.listBeers().getContent().get(0);
+        final String newName = "Mango Bobs 2";
+        beerDTO.setBeerName(newName);
+
+        BeerDTO updatedBeerDto = beerClient.updateBeer(beerDTO);
+        assertEquals(newName, updatedBeerDto.getBeerName());
+    }
 
     @Test
     void testCreateBeer() {
