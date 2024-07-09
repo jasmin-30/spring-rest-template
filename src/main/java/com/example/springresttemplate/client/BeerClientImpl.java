@@ -5,12 +5,14 @@ import com.example.springresttemplate.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -68,5 +70,14 @@ public class BeerClientImpl implements BeerClient {
 
         return restTemplate.getForObject(
                 UriComponentsBuilder.fromPath(GET_BEER_BY_ID_PATH).buildAndExpand(beerId).toUriString(), BeerDTO.class);
+    }
+
+    @Override
+    public BeerDTO createBeer(BeerDTO beerDTO) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+//        ResponseEntity<BeerDTO> responseEntity = restTemplate.postForEntity(GET_BEER_PATH, beerDTO, BeerDTO.class);
+        URI uri = restTemplate.postForLocation(GET_BEER_PATH, beerDTO);
+        return restTemplate.getForObject(uri.getPath(), BeerDTO.class);
     }
 }

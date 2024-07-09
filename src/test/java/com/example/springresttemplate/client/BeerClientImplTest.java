@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -14,6 +16,19 @@ class BeerClientImplTest {
     @Autowired
     BeerClient beerClient;
 
+    @Test
+    void testCreateBeer() {
+        BeerDTO dto = BeerDTO.builder()
+                .beerName("Mango Bobs")
+                .price(new BigDecimal("10.99"))
+                .beerStyle(BeerStyle.IPA)
+                .quantityOnHand(500)
+                .upc("123245")
+                .build();
+
+        BeerDTO savedBeerDto = beerClient.createBeer(dto);
+        assertNotNull(savedBeerDto);
+    }
 
     @Test
     void getBeerById() {
