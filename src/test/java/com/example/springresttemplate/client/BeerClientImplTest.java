@@ -19,11 +19,19 @@ class BeerClientImplTest {
 
     @Test
     void testUpdateBeer() {
-        BeerDTO beerDTO = beerClient.listBeers().getContent().get(0);
-        final String newName = "Mango Bobs 2";
-        beerDTO.setBeerName(newName);
+        BeerDTO dto = BeerDTO.builder()
+                .beerName("Mango Bobs")
+                .price(new BigDecimal("10.99"))
+                .beerStyle(BeerStyle.IPA)
+                .quantityOnHand(500)
+                .upc("123245")
+                .build();
 
-        BeerDTO updatedBeerDto = beerClient.updateBeer(beerDTO);
+        BeerDTO newDto = beerClient.createBeer(dto);
+        final String newName = "Mango Bobs 2";
+        newDto.setBeerName(newName);
+
+        BeerDTO updatedBeerDto = beerClient.updateBeer(newDto);
         assertEquals(newName, updatedBeerDto.getBeerName());
     }
 
