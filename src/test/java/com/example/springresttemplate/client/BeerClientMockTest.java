@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -127,6 +128,16 @@ class BeerClientMockTest {
                 .andRespond(withNoContent());
 
         beerClient.deleteBeer(dto.getId());
+        server.verify();
+    }
+
+    @Test
+    void testDeleteBeerWhenBeerIdNotFound() {
+        server.expect(method(HttpMethod.DELETE))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, dto.getId()))
+                .andRespond(withResourceNotFound());
+
+        assertThrows(HttpClientErrorException.class, () -> beerClient.deleteBeer(dto.getId()));
         server.verify();
     }
 
