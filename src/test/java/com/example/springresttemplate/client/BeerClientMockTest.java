@@ -120,6 +120,16 @@ class BeerClientMockTest {
         assertThat(returnedDto.getId()).isEqualTo(dto.getId());
     }
 
+    @Test
+    void testDeleteBeer() {
+        server.expect(method(HttpMethod.DELETE))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.GET_BEER_BY_ID_PATH, dto.getId()))
+                .andRespond(withNoContent());
+
+        beerClient.deleteBeer(dto.getId());
+        server.verify();
+    }
+
     BeerDTO getBeerDto(){
         return BeerDTO.builder()
                 .id(UUID.randomUUID())
