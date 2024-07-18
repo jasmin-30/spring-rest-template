@@ -20,6 +20,7 @@ public class RestTemplateBuilderConfig {
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
+    @Bean
     public OAuth2AuthorizedClientManager auth2AuthorizedClientManager() {
         OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
                 .clientCredentials()
